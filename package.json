@@ -1,37 +1,62 @@
 {
   "name": "dynamic-config-store",
   "version": "1.0.0",
-  "description": "Simple configuration utility for deployments, libraries and frontend Javascript",
-  "main": "dist/dynamic-config-store.umd.js",
-  "module": "dist/dynamic-config-store.es5.js",
-  "typings": "dist/types/dynamic-config-store.d.ts",
-  "files": [
-    "dist"
+  "description": "Simple configuration utility for deployments and libraries",
+  "keywords": [
+    "config",
+    "node",
+    "package"
   ],
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "homepage": "https://github.com/lostpebble/dynamic-config-store#readme",
+  "bugs": {
+    "url": "https://github.com/lostpebble/dynamic-config-store/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lostpebble/node-lib-config.git"
+    "url": "git+https://github.com/lostpebble/dynamic-config-store.git"
   },
-  "keywords": [
-    "node",
-    "config",
-    "package"
-  ],
-  "author": "Paul Myburgh",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/lostpebble/node-lib-config/issues"
+  "author": "Paul Myburgh",
+  "files": [
+    "dist"
+  ],
+  "main": "dist/dynamic-config-store.umd.js",
+  "module": "dist/dynamic-config-store.es5.js",
+  "typings": "dist/types/dynamic-config-store.d.ts",
+  "scripts": {
+    "build": "tsc --module commonjs && rollup -c rollup.config.ts && typedoc --out docs --target es6 --theme minimal --mode file src",
+    "test": "jest"
   },
-  "homepage": "https://github.com/lostpebble/node-lib-config#readme",
+  "jest": {
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ],
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    }
+  },
   "dependencies": {
     "immer": "^1.7.4",
     "lodash": "^4.17.11"
   },
   "devDependencies": {
+    "@types/jest": "^23.3.9",
+    "@types/lodash": "^4.14.118",
     "@types/node": "^10.12.6",
-    "@types/lodash": "^4.14.118"
+    "jest": "^23.6.0",
+    "ts-jest": "^23.10.4",
+    "typescript": "^3.1.6",
+    "rollup": "^0.66.2",
+    "rollup-plugin-commonjs": "^9.1.8",
+    "rollup-plugin-json": "^3.1.0",
+    "rollup-plugin-node-resolve": "^3.4.0",
+    "rollup-plugin-sourcemaps": "^0.4.2",
+    "rollup-plugin-typescript2": "^0.17.0"
   }
 }

@@ -1,6 +1,6 @@
 import immer from "immer";
-import snakeCase from "lodash/snakeCase";
-import merge from "lodash/merge";
+import { snakeCase } from "lodash";
+import { merge } from "lodash";
 
 const datePattern = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/;
 
@@ -133,7 +133,7 @@ export class ConfigClass<T extends object> {
   private _values: T;
   private _valuesWithAugmentations: T;
   private _overridePrefix: string;
-  private _configName: string;
+  private readonly _configName: string;
   private _envOverrides: Partial<T> = {};
   private _envLinks: Partial<T> = {};
   private _configChangeReactions: Array<TConfigChangeReaction<any>> = [];
