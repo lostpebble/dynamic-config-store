@@ -1,8 +1,13 @@
 {
-  "name": "node-lib-config",
+  "name": "dynamic-config-store",
   "version": "1.0.0",
-  "description": "Configuration utility for Node libraries and their consumers",
-  "main": "index.js",
+  "description": "Simple configuration utility for deployments, libraries and frontend Javascript",
+  "main": "dist/dynamic-config-store.umd.js",
+  "module": "dist/dynamic-config-store.es5.js",
+  "typings": "dist/types/dynamic-config-store.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
