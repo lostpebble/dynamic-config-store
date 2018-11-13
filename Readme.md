@@ -1,10 +1,22 @@
 ## dynamic-config-store
 
-A configuration utility for global configurations (singleton pattern).
+A configuration utility for global configurations.
 
 An example simple config:
 
-
+```typescript
+const config = new ConfigClass({
+  accessCode: "123abc",
+  nullThing: null,
+  SomeLibrary: {
+    Deeper: {
+      key: "asdasd",
+      otherKey: "123123",
+    }
+  },
+  wins: 213,
+});
+```
 
 A configuration can be easily defined through the following means (higher takes precedence over others):
 
