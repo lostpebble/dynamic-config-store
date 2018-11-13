@@ -1,0 +1,32 @@
+{
+  "name": "node-lib-config",
+  "version": "1.0.0",
+  "description": "Configuration utility for Node libraries and their consumers",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lostpebble/node-lib-config.git"
+  },
+  "keywords": [
+    "node",
+    "config",
+    "package"
+  ],
+  "author": "Paul Myburgh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lostpebble/node-lib-config/issues"
+  },
+  "homepage": "https://github.com/lostpebble/node-lib-config#readme",
+  "dependencies": {
+    "immer": "^1.7.4",
+    "lodash": "^4.17.11"
+  },
+  "devDependencies": {
+    "@types/node": "^10.12.6",
+    "@types/lodash": "^4.14.118"
+  }
+}
