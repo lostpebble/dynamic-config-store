@@ -4,6 +4,7 @@ logs
 npm-debug.log*
 
 .rpt2_cache
+docs
 
 build
 dist

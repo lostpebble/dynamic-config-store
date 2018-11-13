@@ -1,4 +1,4 @@
-import { ConfigStore, ETypeOfEnvLink } from "../src/dynamic-config-store";
+import { __jest_test_internals, ConfigStore, ETypeOfEnvLink, TEnvironmentLink } from "../src";
 
 interface ISimpleConfig {
   wins: number;
@@ -13,6 +13,54 @@ interface ISimpleConfig {
 }
 
 describe("Config Utils", () => {
+  describe("Internal utils", () => {
+    it("Should correctly check for envLink object", () => {
+      expect(__jest_test_internals.isEnvLink({
+        type: ETypeOfEnvLink.NUMBER,
+        env: "SADAS",
+        required: false,
+        defaultValue: 23,
+      } as TEnvironmentLink)).toBe(true);
+
+      expect(__jest_test_internals.isEnvLink({
+        type: ETypeOfEnvLink.STRING,
+        env: "DS",
+        required: false,
+        defaultValue: "asdsd",
+      } as TEnvironmentLink)).toBe(true);
+
+      expect(__jest_test_internals.isEnvLink({
+        type: ETypeOfEnvLink.FUNCTION,
+        env: "DS",
+        required: false,
+        defaultValue: false,
+        func: v => v > 1,
+      } as TEnvironmentLink)).toBe(true);
+
+      expect(__jest_test_internals.isEnvLink({
+        type: ETypeOfEnvLink.FUNCTION,
+        env: "DS",
+        func: v => v > 1,
+      } as TEnvironmentLink)).toBe(true);
+
+      expect(__jest_test_internals.isEnvLink({
+        type: ETypeOfEnvLink.FUNCTION,
+        func: v => v > 1,
+      } as TEnvironmentLink)).toBe(false);
+
+      expect(__jest_test_internals.isEnvLink({
+        type: ETypeOfEnvLink.STRING,
+        env: "DS",
+      } as TEnvironmentLink)).toBe(true);
+
+      expect(__jest_test_internals.isEnvLink({
+        type: ETypeOfEnvLink.STRING,
+        env: "SDS",
+        egg: false
+      })).toBe(false);
+    });
+  });
+
   describe("A simple config", () => {
     const config = new ConfigStore<ISimpleConfig>({
       accessCode: "123abc",
@@ -294,6 +342,15 @@ describe("Config Utils", () => {
         wins: {
           type: ETypeOfEnvLink.NUMBER,
           env: "WINS",
+        },
+        SomeLibrary: {
+          Deeper: {
+            key: {
+              required: false,
+              env: "NOTHING",
+              type: ETypeOfEnvLink.JSON_STRING,
+            }
+          }
         },
       });
 

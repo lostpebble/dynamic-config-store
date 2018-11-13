@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Code used in the Readme.md Can create the config 1`] = `
+Object {
+  "isProductionEnv": false,
+  "serverConfig": Object {
+    "host": Object {
+      "hostname": "localhost",
+      "protocol": "http",
+    },
+    "port": 8080,
+  },
+  "serverSecret": "123abc",
+}
+`;
+
+exports[`Code used in the Readme.md Can react to NODE_ENV 1`] = `
+Object {
+  "isProductionEnv": true,
+  "serverConfig": Object {
+    "host": Object {
+      "hostname": "localhost",
+      "protocol": "http",
+    },
+    "port": 8080,
+  },
+  "serverSecret": "123abc",
+}
+`;
+
+exports[`Run through the code used in the Readme.md Can create the config 1`] = `
+Object {
+  "isProductionEnv": false,
+  "serverConfig": Object {
+    "host": Object {
+      "hostname": "localhost",
+      "protocol": "http",
+    },
+    "port": 8080,
+  },
+  "serverSecret": "123abc",
+}
+`;
+
+exports[`Run through the code used in the Readme.md Can react to NODE_ENV 1`] = `
+Object {
+  "isProductionEnv": true,
+  "serverConfig": Object {
+    "host": Object {
+      "hostname": "localhost",
+      "protocol": "http",
+    },
+    "port": 8080,
+  },
+  "serverSecret": "123abc",
+}
+`;

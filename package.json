@@ -1,6 +1,6 @@
 {
   "name": "dynamic-config-store",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "Simple configuration utility for deployments and libraries",
   "keywords": [
     "config",
@@ -20,11 +20,13 @@
   "files": [
     "dist"
   ],
-  "main": "dist/dynamic-config-store.umd.js",
-  "module": "dist/dynamic-config-store.es5.js",
-  "typings": "dist/types/dynamic-config-store.d.ts",
+  "main": "dist/index.umd.js",
+  "module": "dist/index.es5.js",
+  "typings": "dist/index.d.ts",
   "scripts": {
+    "clean": "rimraf dist",
     "build": "tsc --module commonjs && rollup -c rollup.config.ts && typedoc --out docs --target es6 --theme minimal --mode file src",
+    "prepublish": "npm run clean && npm run build",
     "test": "jest"
   },
   "jest": {
@@ -50,7 +52,9 @@
     "@types/lodash": "^4.14.118",
     "@types/node": "^10.12.6",
     "jest": "^23.6.0",
+    "rimraf": "^2.6.2",
     "ts-jest": "^23.10.4",
+    "typedoc": "^0.13.0",
     "typescript": "^3.1.6",
     "rollup": "^0.66.2",
     "rollup-plugin-commonjs": "^9.1.8",
