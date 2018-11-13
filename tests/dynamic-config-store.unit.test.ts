@@ -1,4 +1,4 @@
-import { ConfigClass, ETypeOfEnvLink } from "../src/dynamic-config-store";
+import { ConfigStore, ETypeOfEnvLink } from "../src/dynamic-config-store";
 
 interface ISimpleConfig {
   wins: number;
@@ -14,7 +14,7 @@ interface ISimpleConfig {
 
 describe("Config Utils", () => {
   describe("A simple config", () => {
-    const config = new ConfigClass<ISimpleConfig>({
+    const config = new ConfigStore<ISimpleConfig>({
       accessCode: "123abc",
       nullThing: null,
       SomeLibrary: {
@@ -74,7 +74,7 @@ describe("Config Utils", () => {
     process.env.CONFIG_OVERRIDE_ACCESS_CODE = "\"321cba\"";
     process.env.CONFIG_OVERRIDE_SOME_LIBRARY__DEEPER__KEY = "\"dsadsa\"";
 
-    const config = new ConfigClass<ISimpleConfig>({
+    const config = new ConfigStore<ISimpleConfig>({
       accessCode: "123abc",
       nullThing: null,
       SomeLibrary: {
@@ -169,7 +169,7 @@ describe("Config Utils", () => {
   });
 
   describe("A config with some env links", () => {
-    const config = new ConfigClass<ISimpleConfig>({
+    const config = new ConfigStore<ISimpleConfig>({
       accessCode: "123abc",
       nullThing: null,
       SomeLibrary: {
@@ -278,7 +278,7 @@ describe("Config Utils", () => {
       process.env.CONFIG_OVERRIDE_SOME_LIBRARY__DEEPER__KEY = "\"dsadsa\"";
       process.env.WINS = "12345";
 
-      const config = new ConfigClass<ISimpleConfig>({
+      const config = new ConfigStore<ISimpleConfig>({
         accessCode: "123abc",
         nullThing: null,
         SomeLibrary: {
@@ -350,7 +350,7 @@ describe("Config Utils", () => {
 
   describe("Configuration reactions", () => {
     it("Should react and change values in proper order", () => {
-      const config = new ConfigClass<ISimpleConfig>({
+      const config = new ConfigStore<ISimpleConfig>({
         accessCode: "321cba",
         nullThing: null,
         SomeLibrary: {
@@ -370,7 +370,7 @@ describe("Config Utils", () => {
     });
 
     it("Should react to changes in the config and set new values accordingly", () => {
-      const config = new ConfigClass<ISimpleConfig>({
+      const config = new ConfigStore<ISimpleConfig>({
         accessCode: "321cba",
         nullThing: null,
         SomeLibrary: {

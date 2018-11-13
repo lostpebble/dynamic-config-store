@@ -129,7 +129,7 @@ function getEnvLinksFromEnv<T extends object>(envLinks: TEnvironmentLinks<T>, co
 
 export type TConfigChangeReaction<T = any> = (config: T) => void;
 
-export class ConfigClass<T extends object> {
+export class ConfigStore<T extends object> {
   private _values: T;
   private _valuesWithAugmentations: T;
   private _overridePrefix: string;

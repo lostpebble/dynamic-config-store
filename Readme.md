@@ -5,7 +5,9 @@ A configuration utility for global configurations.
 An example simple config:
 
 ```typescript
-const config = new ConfigClass({
+import { ConfigStore } from "dynamic-config-store";
+
+const config = new ConfigStore({
   accessCode: "123abc",
   nullThing: null,
   SomeLibrary: {
