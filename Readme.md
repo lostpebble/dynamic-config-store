@@ -1,4 +1,4 @@
-## node-lib-config
+## dynamic-config-store
 
 A configuration utility for global configurations (singleton pattern).
 
