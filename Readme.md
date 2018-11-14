@@ -189,13 +189,33 @@ ServerConfig.setConfig({
 
 This would set a new `serverSecret` default, and would only replace the `port` value inside of `instance`, and keep all the original defaults set by the
 original config during creation, here in a library apparently called `server-utility`. You could even now define
-your own **Environment Links** into this external configuration, specific to this deployment.
+your own **Environment Links** into this external configuration, specific to this deployment:
+
+```typescript
+ServerConfig.setEnvLinks({
+  serverSecret: {
+    env: "MY_SERVER_SECRET",
+    type: ETypeOfEnvLink.STRING
+  },
+}, true);   // Setting true here will wipe out all the Links set previously!
+            // In this case, SERVER_PORT, SERVER_HOST_NAME and NODE_ENV
+            // default is false - as this is most often not desired
+```
 
 Modularity and extensibility are first class citizens in `dynamic-config-store`!
 
-### Where to use it
+### Best practice
 
-You should always define your configuration before any other code runs. Let's look at such an example:
+You should always define your configuration before any other code runs. Let's look at a simple example of
+a config for a server deployment:
+
+Create an entry file and import the config file first, this initializes it before any other code:
+
+```typescript
+// project/src/entry.ts
+import "./ServerConfig";
+import "./Server";
+```
 
 ```typescript
 // project/src/ServerConfig.ts
@@ -214,14 +234,6 @@ export const ServerConfig = new ConfigStore<ISimpleServerConfig>({
  }, "CONFIG_SERVER_OVERRIDE_", "Server Config");
 ```
 
-Create an entry file and import the config file first, this initializes it before any other code:
-
-```typescript
-// project/src/entry.ts
-import "./ServerConfig";
-import "./Server";
-```
-
 That potential Server file:
 
 ```typescript
@@ -235,7 +247,7 @@ const app = new Koa();
 
 app.keys([serverSecret]);
 
-// ... app configuration as normal
+// ... app configuration ...
 
 app.listen(port, () => {
   if (!isProductionEnv) {
@@ -245,5 +257,3 @@ app.listen(port, () => {
   console.info(`listening on ${protocol}://${hostname}:${port}`);
 });
 ```
-
-And now we have easy to use, global configs to use all around our code base.
