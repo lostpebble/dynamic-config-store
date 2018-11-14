@@ -3,7 +3,7 @@ import { ConfigStore, ETypeOfEnvLink } from "../../src";
 interface ISimpleServerConfig {
   isProductionEnv: boolean;
   serverSecret: string;
-  serverConfig: {
+  instance: {
     port: number;
     host: {
       protocol: string;
@@ -16,7 +16,7 @@ const createConfig = () =>
   new ConfigStore<ISimpleServerConfig>({
     isProductionEnv: false,
     serverSecret: "123abc",
-    serverConfig: {
+    instance: {
       port: 8080,
       host: {
         protocol: "http",
@@ -24,6 +24,19 @@ const createConfig = () =>
       },
     },
   });
+
+const createNamedConfig = () =>
+  new ConfigStore<ISimpleServerConfig>({
+    isProductionEnv: false,
+    serverSecret: "123abc",
+    instance: {
+      port: 8080,
+      host: {
+        protocol: "http",
+        hostname: "localhost",
+      },
+    },
+  }, "CONFIG_SERVER_", "Server Config");
 
 describe("Code used in the Readme.md", () => {
   const OLD_ENV = process.env;
@@ -76,13 +89,32 @@ describe("Code used in the Readme.md", () => {
         type: ETypeOfEnvLink.FUNCTION,
         func: v => v === "production",
       },
-      serverConfig: {
+      instance: {
         port: {
           env: "SERVER_PORT",
           type: ETypeOfEnvLink.NUMBER,
           required: false
         },
+        host: {
+          hostname: {
+            required: false,
+            env: "SERVER_HOST_NAME",
+            type: ETypeOfEnvLink.STRING,
+            defaultValue: "example.com"
+          }
+        }
       },
     });
+
+    expect (config.getConfig()).toMatchSnapshot();
+
+    config.setConfig({
+      serverSecret: "my-new-secret",
+      instance: {
+        port: 3000,
+      },
+    });
+
+    expect (config.getConfig()).toMatchSnapshot();
   });
 });

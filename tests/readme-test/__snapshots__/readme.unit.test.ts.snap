@@ -28,6 +28,34 @@ Object {
 }
 `;
 
+exports[`Code used in the Readme.md Works as expected with the example 1`] = `
+Object {
+  "instance": Object {
+    "host": Object {
+      "hostname": "example.com",
+      "protocol": "http",
+    },
+    "port": 8080,
+  },
+  "isProductionEnv": true,
+  "serverSecret": "123abc",
+}
+`;
+
+exports[`Code used in the Readme.md Works as expected with the example 2`] = `
+Object {
+  "instance": Object {
+    "host": Object {
+      "hostname": "example.com",
+      "protocol": "http",
+    },
+    "port": 3000,
+  },
+  "isProductionEnv": true,
+  "serverSecret": "my-new-secret",
+}
+`;
+
 exports[`Run through the code used in the Readme.md Can create the config 1`] = `
 Object {
   "isProductionEnv": false,
