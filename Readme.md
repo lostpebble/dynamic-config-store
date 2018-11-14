@@ -168,9 +168,9 @@ constantly to set a certain config value - then its probably time to create a de
 
 ### Deep Merging and Extending
 
-All of the methods in `dynamic-config-store`, use the concept of Deep Merging when changing the config. This
-ensures that your objects deeper in the config tree are not wholly over-written when you simply want to change
-a single value within one.
+All of the methods in `dynamic-config-store` use **deep merging** when changing the config. This
+ensures that your objects deeper in the config tree are not wholly over-written or cleared when you
+simply want to change a single value within one.
 
 This is useful for when you are extending an external configuration, from perhaps a library or one of your own
 internal packages that you use in different projects for code re-use. For example, if you were extending this
@@ -188,7 +188,10 @@ ServerConfig.setConfig({
 ```
 
 This would set a new `serverSecret` default, and would only replace the `port` value inside of `instance`, and keep all the original defaults set by the
-original config during creation, here in a library apparently called `server-utility`.
+original config during creation, here in a library apparently called `server-utility`. You could even now define
+your own **Environment Links** into this external configuration, specific to this deployment.
+
+Modularity and extensibility are first class citizens in `dynamic-config-store`!
 
 ### Where to use it
 
@@ -196,6 +199,7 @@ You should always define your configuration before any other code runs. Let's lo
 
 ```typescript
 // project/src/ServerConfig.ts
+import { ConfigStore } from "dynamic-config-store";
 
 export const ServerConfig = new ConfigStore<ISimpleServerConfig>({
    isProductionEnv: false,
@@ -210,7 +214,15 @@ export const ServerConfig = new ConfigStore<ISimpleServerConfig>({
  }, "CONFIG_SERVER_OVERRIDE_", "Server Config");
 ```
 
-Import the config file first, this initializes it before any other code:
+Create an entry file and import the config file first, this initializes it before any other code:
+
+```typescript
+// project/src/entry.ts
+import "./ServerConfig";
+import "./Server";
+```
+
+That potential Server file:
 
 ```typescript
 // project/src/Server.ts
