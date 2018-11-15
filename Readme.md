@@ -34,7 +34,7 @@ const config = new ConfigStore<ISimpleServerConfig>({
 
 This creates our initial configuration, with **well-defined defaults**.
 
-Getting the config at a later stage, is easy:
+Getting config values at a later stage, is easy:
 
 ```
 const { isProductionEnv } = config.getConfig();
