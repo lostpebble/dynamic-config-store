@@ -38,7 +38,7 @@ A configuration can be easily dynamically changed via the following means:
 
 ### 🔌 Environment Links
 
-#### Nice, pre-defined environment overrides for your config
+#### Pre-defined environment overrides for your config
 
 Let's try one now:
 
