@@ -200,7 +200,7 @@ config.addConfigChangeReaction((config) => {
 You don't need to return a value - simply change the current config directly. The great library [Immer](https://github.com/mweststrate/immer) is used under the covers to
 allow this!
 
-### Deep Merging and Extending
+## Deep Merging and Extending
 
 All of the methods in `dynamic-config-store` use **deep merging** when changing the config. This
 ensures that your objects deeper in the config tree are not wholly over-written or cleared when you
