@@ -34,10 +34,7 @@ function getOverridesFromEnv<T extends IObject>(prefix: string, obj: T): T {
       overrideObj[key] = getOverridesFromEnv(`${overrideKey}__`, obj[key]);
     } else {
       if (typeof process.env[overrideKey] !== "undefined" && process.env[overrideKey] != null) {
-        overrideObj[key] = JSON.parse(
-          process.env[overrideKey]!,
-          reviveDateObjects
-        );
+        overrideObj[key] = JSON.parse(process.env[overrideKey]!, reviveDateObjects);
       }
     }
   }
@@ -52,47 +49,66 @@ export enum ETypeOfEnvLink {
   FUNCTION = "FUNCTION",
 }
 
-export type TEnvironmentLink = {
-  env: string;
-  type: ETypeOfEnvLink.JSON_STRING;
-  func?: null;
-  required?: boolean;
-  defaultValue?: any;
-} | {
-  env: string;
-  type: ETypeOfEnvLink.FUNCTION;
-  func: (value: any) => any;
-  required?: boolean;
-  defaultValue?: any;
-} | {
-  env: string;
-  type: ETypeOfEnvLink.NUMBER;
-  func?: null;
-  required?: boolean;
-  defaultValue?: number;
-} | {
-  env: string;
-  type: ETypeOfEnvLink.STRING;
-  func?: null;
-  required?: boolean;
-  defaultValue?: string;
-};
+export type TEnvironmentLink =
+  | {
+      env: string;
+      type: ETypeOfEnvLink.JSON_STRING;
+      func?: null;
+      required?: boolean;
+      defaultValue?: any;
+    }
+  | {
+      env: string;
+      type: ETypeOfEnvLink.FUNCTION;
+      func: (value: any) => any;
+      required?: boolean;
+      defaultValue?: any;
+    }
+  | {
+      env: string;
+      type: ETypeOfEnvLink.NUMBER;
+      func?: null;
+      required?: boolean;
+      defaultValue?: number;
+    }
+  | {
+      env: string;
+      type: ETypeOfEnvLink.STRING;
+      func?: null;
+      required?: boolean;
+      defaultValue?: string;
+    };
 
-type DeepPartial<T, F = undefined> = { [P in keyof T]?: T[P] extends object ? DeepPartial<T[P]> : F extends undefined ? T[P] : F };
-export type TEnvironmentLinks<T extends IObject> = { [property in keyof Partial<T>]: T[property] extends object ? TEnvironmentLinks<T[property]> : TEnvironmentLink };
+type DeepPartial<T, F = undefined> = {
+  [P in keyof T]?: T[P] extends object ? DeepPartial<T[P]> : F extends undefined ? T[P] : F
+};
+export type TEnvironmentLinks<T extends IObject> = {
+  [property in keyof Partial<T>]: T[property] extends object
+    ? TEnvironmentLinks<T[property]>
+    : TEnvironmentLink
+};
 
 const envLinkOptionalProps = ["defaultValue", "required", "func"];
 
 function isEnvLink(obj: any): obj is TEnvironmentLink {
-  if (!obj.hasOwnProperty("env")) { return false; }
-  if (!obj.hasOwnProperty("type")) { return false; }
+  if (!obj.hasOwnProperty("env")) {
+    return false;
+  }
+  if (!obj.hasOwnProperty("type")) {
+    return false;
+  }
 
   const extraPropsAmount = Object.keys(obj).length - 2;
   const hasOptionalKeys = envLinkOptionalProps.filter(prop => obj.hasOwnProperty(prop));
   return extraPropsAmount === hasOptionalKeys.length;
 }
 
-function getEnvLinksFromEnv<T extends IObject>(envLinks: TEnvironmentLinks<T>, configName: string, values: T, prefixKey: string = ""): T {
+function getEnvLinksFromEnv<T extends IObject>(
+  envLinks: TEnvironmentLinks<T>,
+  configName: string,
+  values: T,
+  prefixKey: string = ""
+): T {
   const envLinksObj: IObject = {};
 
   const configNameString = configName.length > 0 ? ` (${configName})` : "";
@@ -120,10 +136,16 @@ function getEnvLinksFromEnv<T extends IObject>(envLinks: TEnvironmentLinks<T>, c
         if (cur.hasOwnProperty("defaultValue")) {
           envLinksObj[key] = cur.defaultValue;
           def = cur.defaultValue;
-          console.warn(`CONFIG${configNameString}: property '${prefixKey}${key}' using default value (${JSON.stringify(def)}) because env variable "${env}" was not set.`);
+          console.warn(
+            `CONFIG${configNameString}: property '${prefixKey}${key}' using default value (${JSON.stringify(
+              def
+            )}) because env variable "${env}" was not set.`
+          );
         } else {
           def = values[key];
-          console.warn(`CONFIG${configNameString}: property '${prefixKey}${key}' couldn't be set from env variable "${env}" (was not present) - so not changing its value from what was set before (${def}).`);
+          console.warn(
+            `CONFIG${configNameString}: property '${prefixKey}${key}' couldn't be set from env variable "${env}" (was not present) - so not changing its value from what was set before (${def}).`
+          );
         }
       } else {
         const envString: string = process.env[env]!;
@@ -211,7 +233,15 @@ export class ConfigStore<T extends IObject> {
     console.log(`Should have set values`, config);
   }
 
-  getConfig({ ignoreOverrides = false, ignoreEnvLinks = false, ignoreReactions = false } = {}): T {
+  getConfig({
+    ignoreOverrides = false,
+    ignoreEnvLinks = false,
+    ignoreReactions = false,
+  }: {
+    ignoreOverrides?: boolean;
+    ignoreEnvLinks?: boolean;
+    ignoreReactions?: boolean;
+  } = {}): T {
     if (ignoreOverrides || ignoreEnvLinks || ignoreReactions) {
       let returnValues: T = merge({}, this._values);
 
@@ -254,4 +284,4 @@ export class ConfigStore<T extends IObject> {
 
 export const __jest_test_internals = {
   isEnvLink,
-}
+};

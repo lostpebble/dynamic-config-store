@@ -36,7 +36,7 @@ const createNamedConfig = () =>
         hostname: "localhost",
       },
     },
-  }, "CONFIG_SERVER_", "Server Config");
+  }, "OVERRIDE_CONFIG_SERVER_", "Server Config");
 
 describe("Code used in the Readme.md", () => {
   const OLD_ENV = process.env;
@@ -108,6 +108,8 @@ describe("Code used in the Readme.md", () => {
 
     expect (config.getConfig()).toMatchSnapshot();
 
+    process.env.CONFIG_OVERRIDE_INSTANCE__PORT = "6000";
+
     config.setConfig({
       serverSecret: "my-new-secret",
       instance: {
@@ -116,5 +118,6 @@ describe("Code used in the Readme.md", () => {
     });
 
     expect (config.getConfig()).toMatchSnapshot();
+    expect (config.getConfig({ ignoreOverrides: true })).toMatchSnapshot();
   });
 });

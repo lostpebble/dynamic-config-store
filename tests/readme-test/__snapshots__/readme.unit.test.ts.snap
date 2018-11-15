@@ -49,6 +49,20 @@ Object {
       "hostname": "example.com",
       "protocol": "http",
     },
+    "port": 6000,
+  },
+  "isProductionEnv": true,
+  "serverSecret": "my-new-secret",
+}
+`;
+
+exports[`Code used in the Readme.md Works as expected with the example 3`] = `
+Object {
+  "instance": Object {
+    "host": Object {
+      "hostname": "example.com",
+      "protocol": "http",
+    },
     "port": 3000,
   },
   "isProductionEnv": true,

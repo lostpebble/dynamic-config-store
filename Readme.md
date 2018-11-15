@@ -166,6 +166,15 @@ Basically this allows you to create great global configs for your deployments wi
 about what you'd like to expose as an environment variable. If you find that later you are using an override
 constantly to set a certain config value - then its probably time to create a dedicated and well-named link.
 
+#### Ignoring Environment Overrides
+
+If for whatever reason (possibly security concerns) you don't want to allow an override for a certain value - all
+you have to do to ignore the override is get your config like so:
+
+```
+const { serverSecret } = ServerConfig.getConfig({ ignoreOverrides: true });
+```
+
 ### Deep Merging and Extending
 
 All of the methods in `dynamic-config-store` use **deep merging** when changing the config. This
@@ -204,7 +213,7 @@ ServerConfig.setEnvLinks({
 
 Modularity and extensibility are first class citizens in `dynamic-config-store`!
 
-### Best practice
+## Best practice
 
 You should always define your configuration before any other code runs. Let's look at a simple example of
 a config for a server deployment:
