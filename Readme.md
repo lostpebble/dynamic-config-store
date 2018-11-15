@@ -183,7 +183,7 @@ you have to do to ignore the override is get your config like so:
 const { serverSecret } = ServerConfig.getConfig({ ignoreOverrides: true });
 ```
 
-## Config Reactions
+## ✨ Config Reactions
 
 Sometimes you need values in your config which are based off of other values. For this purpose you
 can create reactions in the config which will play out after all other values have been set by whatever
