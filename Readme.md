@@ -40,7 +40,8 @@ Getting config values at a later stage, is easy:
 const { isProductionEnv } = config.getConfig();
 ```
 
-A configuration can be easily dynamically changed via the following means:
+As usefulness goes, this isn't giving us much at the moment. Let's look at some ways `dynamic-config-store` expands on the
+customization of your configs:
 
 ### 🔌 Environment Links
 
