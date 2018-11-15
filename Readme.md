@@ -34,6 +34,12 @@ const config = new ConfigStore<ISimpleServerConfig>({
 
 This creates our initial configuration, with **well-defined defaults**.
 
+Getting the config at a later stage, is easy:
+
+```
+const { isProductionEnv } = config.getConfig();
+```
+
 A configuration can be easily dynamically changed via the following means:
 
 ### 🔌 Environment Links
@@ -166,7 +172,7 @@ Basically this allows you to create great global configs for your deployments wi
 about what you'd like to expose as an environment variable. If you find that later you are using an override
 constantly to set a certain config value - then its probably time to create a dedicated and well-named link.
 
-#### Ignoring Environment Overrides
+### Ignoring Environment Overrides
 
 If for whatever reason (possibly security concerns) you don't want to allow an override for a certain value - all
 you have to do to ignore the override is get your config like so:
