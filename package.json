@@ -1,6 +1,6 @@
 {
   "name": "dynamic-config-store",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Simple configuration utility for deployments and libraries",
   "keywords": [
     "config",

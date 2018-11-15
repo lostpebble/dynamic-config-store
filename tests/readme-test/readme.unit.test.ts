@@ -119,5 +119,23 @@ describe("Code used in the Readme.md", () => {
 
     expect (config.getConfig()).toMatchSnapshot();
     expect (config.getConfig({ ignoreOverrides: true })).toMatchSnapshot();
+
+    process.env.NODE_ENV = "development";
+
+    config.setEnvLinks({
+      isProductionEnv: {
+        env: "NODE_ENV",
+        type: ETypeOfEnvLink.FUNCTION,
+        func: v => v === "production",
+      },
+    });
+
+    config.addConfigChangeReaction((config) => {
+      if (!config.isProductionEnv) {
+        config.serverSecret = "dev_secret";
+      }
+    });
+
+    expect(config.getConfig().serverSecret).toEqual("dev_secret");
   });
 });

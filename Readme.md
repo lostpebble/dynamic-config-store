@@ -90,12 +90,13 @@ config.setEnvLinks({
 });
 ```
 
-Here we define two more environment links. You can define as many and deeply in the config
+Here we define two more environment links. You can define as many and as deeply in the config
 "tree" as you would like. For the sake of example we have run `setEnvLinks()` twice now, but
 you can combine all your links in one go.
 
 You can see on the second link here, we set a `defaultValue` - this will take precedence over
-the initial default value we set at the beginning, on defining the config.
+the initial default value we set at the beginning, on defining the config. (This is mostly useful
+when overriding external library configs)
 
 Lastly, look at the `type` that has been set for both. `NUMBER` and `STRING` respectively. Let's go
 into more detail on those:
@@ -138,7 +139,7 @@ const config = new ConfigStore<ISimpleServerConfig>({
  }, "CONFIG_SERVER_OVERRIDE_", "Server Config");
 ```
 
-Those two second parameters here identify this configuration much better. And especially for the sake of
+Those two second parameters identify this configuration much better. And especially for the sake of
 Environment Overrides, the first one helps us target this specific config - like so:
 
 ```typescript
@@ -178,9 +179,26 @@ constantly to set a certain config value - then its probably time to create a de
 If for whatever reason (possibly security concerns) you don't want to allow an override for a certain value - all
 you have to do to ignore the override is get your config like so:
 
-```
+```typescript
 const { serverSecret } = ServerConfig.getConfig({ ignoreOverrides: true });
 ```
+
+## Config Reactions
+
+Sometimes you need values in your config which are based off of other values. For this purpose you
+can create reactions in the config which will play out after all other values have been set by whatever
+means:
+
+```typescript
+config.addConfigChangeReaction((config) => {
+  if (!config.isProductionEnv) {
+    config.serverSecret = "dev_secret";
+  }
+});
+```
+
+You don't need to return a value - simply change the current config directly. The great library [Immer](https://github.com/mweststrate/immer) is used under the covers to
+allow this!
 
 ### Deep Merging and Extending
 

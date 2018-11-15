@@ -229,8 +229,6 @@ export class ConfigStore<T extends IObject> {
   setConfig(config: DeepPartial<T>, envOverridePrefix = this._overridePrefix) {
     this._values = merge({}, this._values, config);
     this.setEnvOverridePrefix(envOverridePrefix);
-
-    console.log(`Should have set values`, config);
   }
 
   getConfig({
