@@ -34,13 +34,13 @@ const config = new ConfigStore<ISimpleServerConfig>({
 
 This creates our initial configuration, with **well-defined defaults**.
 
-Getting config values at a later stage, is easy:
+Getting config values at a later stage is easy:
 
 ```
 const { isProductionEnv } = config.getConfig();
 ```
 
-As usefulness goes, this isn't giving us much at the moment. Let's look at some ways `dynamic-config-store` expands on the
+As far as usefulness goes, this isn't giving us much at the moment. Let's look at some ways `dynamic-config-store` expands on the
 customization of your configs:
 
 ### 🔌 Environment Links
