@@ -226,9 +226,11 @@ export class ConfigStore<T extends IObject> {
     this.finalizeValues();
   }
 
-  setConfig(config: DeepPartial<T>, envOverridePrefix = this._overridePrefix) {
+  setConfig(config: DeepPartial<T>, envOverridePrefix = "") {
     this._values = merge({}, this._values, config);
-    this.setEnvOverridePrefix(envOverridePrefix);
+    if (envOverridePrefix.length > 0) {
+      this.setEnvOverridePrefix(envOverridePrefix);
+    }
   }
 
   getConfig({
