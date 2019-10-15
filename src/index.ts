@@ -230,6 +230,8 @@ export class ConfigStore<T extends IObject> {
     this._values = merge({}, this._values, config);
     if (envOverridePrefix.length > 0) {
       this.setEnvOverridePrefix(envOverridePrefix);
+    } else {
+      this.finalizeValues();
     }
   }
 
