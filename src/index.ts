@@ -24,17 +24,20 @@ interface IObject {
   [prop: string]: any;
 }
 
-function getOverridesFromEnv<T extends IObject>(prefix: string, obj: T): T {
+const processEnv = typeof process !== "undefined" ? process.env : {};
+
+function getOverridesFromEnv<T extends IObject>(prefix: string, obj: T, configNameString: string): T {
   const overrideObj: IObject = {};
 
   for (const key of Object.keys(obj)) {
     const overrideKey = `${prefix}${snakeCase(key).toUpperCase()}`;
 
     if (obj[key] != null && typeof obj[key] === "object") {
-      overrideObj[key] = getOverridesFromEnv(`${overrideKey}__`, obj[key]);
+      overrideObj[key] = getOverridesFromEnv(`${overrideKey}__`, obj[key], configNameString);
     } else {
-      if (typeof process.env[overrideKey] !== "undefined" && process.env[overrideKey] != null) {
-        overrideObj[key] = JSON.parse(process.env[overrideKey]!, reviveDateObjects);
+      if (typeof processEnv[overrideKey] !== "undefined" && processEnv[overrideKey] != null) {
+        console.warn(`CONFIG${configNameString}: found override environment property '${overrideKey}'`);
+        overrideObj[key] = JSON.parse(processEnv[overrideKey]!, reviveDateObjects);
       }
     }
   }
@@ -119,7 +122,7 @@ function getEnvLinksFromEnv<T extends IObject>(
     if (isEnvLink(cur)) {
       const { type, env, required = true, func }: TEnvironmentLink = cur;
 
-      if (typeof process.env[env] === "undefined") {
+      if (typeof processEnv[env] === "undefined") {
         if (required) {
           throw new Error(
             `CONFIG${configNameString}: property '${prefixKey}${key}', Couldn't get the REQUIRED environment variable [${env}] - you must define it. (alternatively set the link to not-required and provide a default)`
@@ -148,7 +151,7 @@ function getEnvLinksFromEnv<T extends IObject>(
           );
         }
       } else {
-        const envString: string = process.env[env]!;
+        const envString: string = processEnv[env]!;
         let value;
 
         if (type === ETypeOfEnvLink.JSON_STRING) {
@@ -201,7 +204,7 @@ export class ConfigStore<T extends IObject> {
   setEnvOverridePrefix(envOverridePrefix: string) {
     this._overridePrefix = envOverridePrefix;
     try {
-      this._envOverrides = getOverridesFromEnv(envOverridePrefix, this._values);
+      this._envOverrides = getOverridesFromEnv(envOverridePrefix, this._values, this._configName.length > 0 ? ` (${this._configName})` : "");
     } catch (e) {
       console.error(
         `Your configuration overrides ( prefix: ${envOverridePrefix} ) need to be JSON parsable - you need to escape string double quotes \\"`
